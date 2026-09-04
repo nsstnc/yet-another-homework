@@ -37,7 +37,7 @@ class LoginUser:
         user = await self._users.get_by_email(email)
 
         if user is None:
-            logger.warning("User does not exist", user)
+            logger.warning("User does not exist")
             raise UserDoesNotExists
 
         if not self._security.verify(

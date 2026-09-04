@@ -1,4 +1,6 @@
-from sqlalchemy import select
+from datetime import datetime, UTC
+
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.domain.entities.user_session import UserSession
@@ -34,6 +36,25 @@ class SqlAlchemyUserSessionRepository(UserSessionRepository):
             return None
 
         return self._to_domain(model)
+
+    async def revoke_session(self, session_id) -> bool:
+        stmt = (
+            update(UserSessionModel)
+            .where(
+                UserSessionModel.id == session_id,
+                UserSessionModel.revoked_at.is_(None),
+            )
+            .values(
+                revoked_at=datetime.now(UTC),
+            )
+            .returning(UserSessionModel.id)
+        )
+
+        result = await self._session.execute(stmt)
+        revoked_session_id = result.scalar_one_or_none()
+
+        await self._session.commit()
+        return revoked_session_id is not None
 
     @staticmethod
     def _to_domain(model: UserSessionModel) -> UserSession:
