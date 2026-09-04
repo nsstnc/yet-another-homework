@@ -6,7 +6,11 @@ services:
       dockerfile: Dockerfile
     environment:
       - SECRET_KEY=${SECRET_KEY}
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=${DATABASE_DOCKER_URL}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./auth_service/src:/app/src
     depends_on:
       - postgres
       - kafka
@@ -37,6 +41,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

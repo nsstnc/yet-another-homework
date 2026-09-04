@@ -1,19 +1,37 @@
-import asyncio
 import logging
 
+import uvicorn
+from fastapi import FastAPI
+from src.api.routes.router import router
 from src.logging_config import configure_logging
 
 logger = logging.getLogger(__name__)
 
 
-async def run_app():
-    logger.info("Starting auth_service...")
+
+def create_app() -> FastAPI:
+    app = FastAPI(
+        title="Auth Service",
+    )
+
+    app.include_router(router)
+
+    return app
+
+
+app = create_app()
 
 
 def main() -> None:
     configure_logging()
+    logger.info("Starting auth_service...")
 
-    asyncio.run(run_app())
+    uvicorn.run(
+        "src.main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+    )
 
 
 if __name__ == "__main__":
