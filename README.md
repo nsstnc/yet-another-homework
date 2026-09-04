@@ -1,5 +1,18 @@
 # Yet Another Homework
 
+### Архитектурный стиль:
+Event-Driven Architecture
+
+### Микросервисный паттерн:
+Database per Service
+
+### Способ взаимодействия:
+Kafka + хореограция
+
+### Паттерн очереди сообщений:
+Idempotent Consumer
+
+
 ### 1. Архитектура потока телеметрии
 
 ```mermaid
