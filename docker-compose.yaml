@@ -31,7 +31,10 @@ services:
       dockerfile: Dockerfile
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
-      - TELEMETRY_API_KEY=${TELEMETRY_API_KEY}
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./telemetry_service/src:/app/src
     depends_on:
       - kafka
 

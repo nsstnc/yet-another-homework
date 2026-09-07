@@ -7,7 +7,7 @@ Event-Driven Architecture
 Database per Service
 
 ### Способ взаимодействия:
-Kafka + хореограция
+Kafka + хореография
 
 ### Паттерн очереди сообщений:
 Idempotent Consumer
