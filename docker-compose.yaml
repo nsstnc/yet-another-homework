@@ -20,10 +20,19 @@ services:
       context: ./ch_exporter
       dockerfile: Dockerfile
     environment:
-      - CLICKHOUSE_URL=${CLICKHOUSE_URL}
-      - EXPORTER_TOKEN=${EXPORTER_TOKEN}
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+      - KAFKA_TELEMETRY_TOPIC=${KAFKA_TELEMETRY_TOPIC}
+      - KAFKA_CONSUMER_GROUP=${KAFKA_CONSUMER_GROUP}
+      - CLICKHOUSE_USER=${CLICKHOUSE_USER}
+      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD}
+      - CLICKHOUSE_HOST=${CLICKHOUSE_HOST}
+      - CLICKHOUSE_PORT=${CLICKHOUSE_PORT}
+      - CLICKHOUSE_DATABASE=${CLICKHOUSE_DATABASE}
+    volumes:
+      - ./ch_exporter/src:/app/src
     depends_on:
       - clickhouse
+      - kafka
 
   telemetry_service:
     build:
